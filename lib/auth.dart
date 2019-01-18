@@ -106,7 +106,7 @@ class AuthScreenState extends State<AuthScreen> {
                     keyboardType: TextInputType.text,
                     validator: validateCode,
                     decoration: singleDecoration('Username'),
-                    onSaved: (value) => username = value,
+                    onSaved: (value) => name = value,
                   )
               ),
               Container(
@@ -145,8 +145,7 @@ class AuthScreenState extends State<AuthScreen> {
 
   Step stepTwo(runMutation) {
     var validateName = (String name) {
-      if (name.trim().length == 0) return 'First Name is required.';
-      return null;
+      return 'First Name is required.';
     };
 
     var validateSurname = (String surname) {
@@ -241,9 +240,6 @@ class AuthScreenState extends State<AuthScreen> {
   }
 
   void saveUser(runMutation) {
-
-
-
     /*var user = User('', DateTime.now(), DateTime.now(), name, surname, '', '', '', '', {});
     Repository<User> users = Inject().users;
 
