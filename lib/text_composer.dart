@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'inject.dart';
 
+// Widget used to compose and send messages. It needs to be a stateful widget,
+// as the input should be disabled if it doesn't contain any text.
 class TextComposer extends StatefulWidget {
 
   TextComposer(this.runMutation);
@@ -46,17 +48,23 @@ class TextComposerState extends State<TextComposer> {
             SafeArea(
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 4.0),
+                // Return either a CupertinoButton or an IconButton depending on
+                // whether the app is running on Android or on iOS.
                 child: Theme.of(context).platform == TargetPlatform.iOS ?
-                CupertinoButton(
-                  child: Text("Send"),
-                  onPressed: _isComposing && _textController.text.trim().length != 0 ?
-                    () =>  _handleSubmitted(_textController.text) : null
-                ) :
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: _isComposing && _textController.text.trim().length != 0 ?
-                    () =>  _handleSubmitted(_textController.text) : null,
-                )
+                  CupertinoButton(
+                    child: Text("Send"),
+                    // If the button is pressed and the the message box isn't empty,
+                    // submit its text, otherwise do nothing.
+                    onPressed: _isComposing && _textController.text.trim().length != 0 ?
+                      () =>  _handleSubmitted(_textController.text) : null
+                  ) :
+                  IconButton(
+                    icon: Icon(Icons.send),
+                    // If the button is pressed and the the message box isn't empty,
+                    // submit its text, otherwise do nothing.
+                    onPressed: _isComposing && _textController.text.trim().length != 0 ?
+                      () =>  _handleSubmitted(_textController.text) : null,
+                  )
               ),
             )
           ],
@@ -70,14 +78,13 @@ class TextComposerState extends State<TextComposer> {
 
     setState(() {
       _isComposing = false;
-      // _isSending = true;
     });
 
+    // Get the current user's ID, and use it to execute the send message mutation.
     String userID = Inject().preferences.getString('userID');
-
     runMutation({
-      'author': '$userID',
-      'text': '$text',
+      'author': userID,
+      'text': text,
       'chat': 'JUgEdBM2BFoh5k7TH7cP'
     });
   }

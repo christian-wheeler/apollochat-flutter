@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
 import 'dart:math';
 
+// A cool particle effect widget put together with a Sprite Engine.
 class ParticleWidget extends StatefulWidget {
 
   final Size size;
@@ -129,8 +130,6 @@ class ParticleNode extends Node {
 
     var x = cos(radians) * speed * pow(10, 2);
     var y = sin(radians) * speed * pow(10, 15);
-
-    print('result degrees $degrees x $x y $y speed $speed');
 
     vector = Offset(x, y);
   }

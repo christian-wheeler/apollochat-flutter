@@ -36,7 +36,7 @@ class ApolloChat extends StatelessWidget {
     return GraphqlProvider(
         client: client,
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Apollo Chat',
           theme: ThemeData(primarySwatch: Colors.blueGrey),
           home: Inject().userID == '' ? AuthScreen() : ChatScreen(),
           routes: {
@@ -45,40 +45,4 @@ class ApolloChat extends StatelessWidget {
         )
     );
   }
-}
-
-String chats = '''
-
-query {
-  chats {
-    title,
-    description
-  }
-}
-
-'''.replaceAll('\n', ' ');
-
-Widget graph() {
-  return Query(
-    chats,
-    builder: ({ bool loading, var data, Exception error }) {
-      if (error != null) {
-        return Text(error.toString());
-      }
-
-      if (loading) {
-        return Text('Loading');
-      }
-
-      // it can be either Map or List
-      List repositories = data['chats'];
-
-      return ListView.builder(
-          itemCount: repositories.length,
-          itemBuilder: (context, index) {
-            final repository = repositories[index];
-            return Text(repository['title']);
-          });
-    },
-  );
 }
